@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/downloads/exploitz86/SwitchBlade/total" alt="downloads">
   <a href="https://github.com/exploitz86/SwitchBlade/actions">
-    <img src="https://github.com/exploitz86/SwitchBlade/actions/workflows/main.yml/badge.svg" alt="Build">
+    <img src="https://github.com/exploitz86/SwitchBlade/actions/workflows/build-release.yaml/badge.svg" alt="Build">
   </a>
   <img src="https://img.shields.io/github/v/release/exploitz86/SwitchBlade" alt="release">
   <img src="https://img.shields.io/github/license/exploitz86/SwitchBlade" alt="license">
