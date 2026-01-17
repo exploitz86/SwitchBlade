@@ -138,7 +138,6 @@ I do not own, host, nor distribute any of the files that can be downloaded with 
 - **[ChanseyIsTheBest](https://github.com/ChanseyIsTheBest)** for the popular 60FPS and graphics enhancement cheats.
 - **Iliak** for [Cheat Slips](https://www.cheatslips.com/).
 - **[Team Neptune](https://github.com/Team-Neptune)** for RCM payload code.
-- **Pikatsuto** for the original logo design and **SuperButterScotch** for typography.
 
 ### Like the app? Consider supporting development!
 <p align="center">
