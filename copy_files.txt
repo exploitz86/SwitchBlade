@@ -1,0 +1,9 @@
+# SwitchBlade copy_files.txt
+# Format: source|destination (one per line)
+# Lines starting with # are comments
+#
+# Example: Copy payloads to specific locations for trinkets/bootloaders
+# /bootloader/update.bin|/bootloader/payloads/hekate.bin
+#
+# After each CFW/bootloader download, files will be automatically copied
+# according to the rules defined here.

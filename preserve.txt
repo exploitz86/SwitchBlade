@@ -1,0 +1,10 @@
+# SwitchBlade preserve.txt
+# List file/directory paths (one per line) that should NOT be overwritten during CFW updates
+# Lines starting with # are comments
+#
+# Examples:
+# /config/sys-patch/config.ini
+# /atmosphere/contents/010000000000BD00/
+# /bootloader/hekate_ipl.ini
+#
+# Files listed here will only be extracted if they don't already exist on the SD card.

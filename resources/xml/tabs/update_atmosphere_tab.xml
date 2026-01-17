@@ -1,0 +1,90 @@
+<brls:Box
+    width="auto"
+    height="auto"
+    axis="column"
+    paddingTop="@style/brls/sidebar/padding_top"
+    paddingRight="@style/brls/sidebar/padding_right"
+    paddingBottom="@style/brls/sidebar/padding_bottom"
+    paddingLeft="@style/brls/sidebar/padding_left">
+
+    <!-- Atmosphere Section -->
+    <brls:Label
+        id="atmosphere_description"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="5"/>
+
+    <brls:Label
+        id="current_atmosphere"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="5"/>
+
+    <brls:Label
+        id="revision"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="20"/>
+
+    <brls:Label
+        width="auto"
+        height="auto"
+        fontSize="22"
+        text="Atmosphere"
+        marginBottom="10"/>
+
+    <!-- Atmosphere versions will be added here dynamically -->
+    <brls:Box
+        id="atmosphere_versions"
+        width="auto"
+        height="auto"
+        axis="column"/>
+
+    <!-- Separator -->
+    <brls:Rectangle
+        width="auto"
+        height="2"
+        color="#505050"
+        marginTop="20"
+        marginBottom="20"/>
+
+    <!-- Ascent Section -->
+    <brls:Label
+        id="ascent_description"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="5"/>
+
+    <brls:Label
+        id="current_ascent"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="5"/>
+
+    <brls:Label
+        id="latest_hos"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="20"/>
+
+    <brls:Label
+        width="auto"
+        height="auto"
+        fontSize="22"
+        text="Ascent"
+        marginBottom="10"/>
+
+    <!-- Ascent versions will be added here dynamically -->
+    <brls:Box
+        id="ascent_versions"
+        width="auto"
+        height="auto"
+        axis="column"/>
+
+</brls:Box>

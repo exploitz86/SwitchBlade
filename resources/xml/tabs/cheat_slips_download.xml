@@ -1,0 +1,29 @@
+<brls:Box
+    width="auto"
+    height="auto"
+    justifyContent="center"
+    margin="20"
+    axis="column">
+
+    <brls:Box
+        width="auto"
+        height="auto"
+        justifyContent="center"
+        axis="row">
+        
+        <brls:ProgressSpinner
+            width="30"
+            height="30"
+            id="loading_spinner"
+            margin="10"
+            size="normal"/>
+
+        <brls:Label
+            width="auto"
+            height="30"
+            id="loading_label"
+            text="Loading cheats..."
+            margin="10"/>
+    </brls:Box>
+
+</brls:Box>

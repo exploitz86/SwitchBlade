@@ -1,0 +1,75 @@
+<brls:Box
+    width="auto"
+    height="auto"
+    axis="row"
+    grow="1.0">
+
+    <!-- Main mod list on the left -->
+    <brls:ScrollingFrame
+        width="700"
+        height="auto"
+        axis="column"
+        alignItems="stretch"
+        scrollingBehavior="centered"
+        marginRight="80">
+
+        <brls:Box
+            id="mod_list"
+            width="auto"
+            height="auto"
+            axis="column"
+            marginTop="20"
+            marginLeft="40"
+            marginRight="40"
+            marginBottom="20"/>
+
+    </brls:ScrollingFrame>
+
+    <!-- Sidebar on the right -->
+    <brls:Box
+        width="auto"
+        height="auto"
+        axis="column"
+        grow="1.0"
+        paddingTop="40"
+        paddingRight="40"
+        paddingLeft="40">
+
+        <brls:Label
+            text="Preset Name:"
+            fontSize="18"
+            marginBottom="10"/>
+
+        <brls:Label
+            id="preset_name_label"
+            fontSize="24"
+            marginBottom="30"/>
+
+        <brls:Label
+            id="selected_count_label"
+            fontSize="18"
+            marginBottom="30"/>
+
+        <brls:Label
+            text="A: Add/Select mod"
+            fontSize="16"
+            marginBottom="10"/>
+
+        <brls:Label
+            text="X: Remove mod"
+            fontSize="16"
+            marginBottom="10"/>
+
+        <brls:Label
+            text="Y: Edit name"
+            fontSize="16"
+            marginBottom="10"/>
+
+        <brls:Label
+            text="Plus: Save preset"
+            fontSize="16"
+            marginBottom="10"/>
+
+    </brls:Box>
+
+</brls:Box>

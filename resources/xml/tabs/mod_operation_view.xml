@@ -1,0 +1,72 @@
+<brls:Box
+    width="auto"
+    height="auto"
+    justifyContent="center"
+    margin="20"
+    axis="column">
+
+    <brls:Label
+        width="auto"
+        height="50"
+        id="operation_text"
+        margin="10"/>
+
+    <brls:Box
+        width="auto"
+        height="auto"
+        justifyContent="center"
+        margin="4"
+        axis="row">
+        <brls:ProgressSpinner
+            width="30"
+            height="30"
+            id="operation_spinner"
+            margin="10"
+            size="normal"/>
+
+        <brls:Slider
+            width="80%"
+            height="40"
+            id="operation_progressBar"
+            margin="10"/>
+
+        <brls:Label
+            width="auto"
+            height="30"
+            id="operation_percent"
+            margin="10"/>
+    </brls:Box>
+
+    <brls:Label
+        width="auto"
+        height="50"
+        id="verify_text"
+        margin="10"/>
+
+    <brls:Box
+        width="auto"
+        height="auto"
+        justifyContent="center"
+        margin="20"
+        axis="row">
+        <brls:ProgressSpinner
+            width="30"
+            height="30"
+            id="verify_spinner"
+            margin="10"
+            size="normal"/>
+
+        <brls:Slider
+            width="80%"
+            height="40"
+            id="verify_progressBar"
+            margin="10"/>
+
+        <brls:Label
+            width="auto"
+            height="30"
+            id="verify_percent"
+            margin="10"/>
+    </brls:Box>
+
+</brls:Box>

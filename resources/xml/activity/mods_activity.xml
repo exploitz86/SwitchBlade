@@ -1,0 +1,19 @@
+<brls:TabFrame
+    id="mod_tabs"
+    title="@i18n/menu/mods_activity/title">
+
+    <brls:Tab label="@i18n/menu/mods_activity/mod_browser">
+        <ModBrowserTab/>
+    </brls:Tab>
+
+    <brls:Tab label="@i18n/menu/mods_activity/mod_presets">
+        <ModPresetsTab/>
+    </brls:Tab>
+
+    <brls:Separator/>
+
+    <brls:Tab label="@i18n/menu/mods_activity/options">
+        <ModOptionsTab/>
+    </brls:Tab>
+
+</brls:TabFrame>

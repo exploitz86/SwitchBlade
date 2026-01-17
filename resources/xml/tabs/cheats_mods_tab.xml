@@ -1,0 +1,62 @@
+<brls:Box
+    width="auto"
+    height="auto">
+
+    <brls:ScrollingFrame
+        width="auto"
+        height="auto"
+        axis="column"
+        alignItems="stretch"
+        scrollingBehavior="centered"
+        grow="1.0">
+
+        <brls:Box
+            width="auto"
+            height="auto"
+            axis="column"
+            alignItems="center"
+            paddingTop="@style/brls/sidebar/padding_top"
+            paddingRight="@style/brls/sidebar/padding_right"
+            paddingBottom="@style/brls/sidebar/padding_bottom"
+            paddingLeft="@style/brls/sidebar/padding_left">
+
+            <brls:Label
+                width="auto"
+                height="auto"
+                fontSize="30"
+                text="@i18n/menu/cheats_mods/title"
+                marginBottom="40"/>
+
+            <brls:RadioCell
+                height="auto"
+                width="auto"
+                id="cheats_menu_button"
+                margin="30px"/>
+
+            <brls:Label
+                id="cheat_menu_desc"
+                width="auto"
+                height="auto"
+                fontSize="16"
+                text="@i18n/menu/cheats_mods/cheat_menu_desc"
+                marginBottom="40"/>
+
+            <brls:RadioCell
+                height="auto"
+                width="auto"
+                id="mods_menu_button"
+                margin="30px"/>
+
+            <brls:Label
+                id="mod_menu_desc"
+                width="auto"
+                height="auto"
+                fontSize="16"
+                text="@i18n/menu/cheats_mods/mod_menu_desc"
+                marginBottom="40"/>
+
+        </brls:Box>
+
+    </brls:ScrollingFrame>
+
+</brls:Box>

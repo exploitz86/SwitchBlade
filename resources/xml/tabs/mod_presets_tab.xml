@@ -1,0 +1,15 @@
+<brls:Box
+    width="auto"
+    height="auto">
+
+    <brls:Box
+        id="preset_list"
+        width="auto"
+        height="auto"
+        axis="column"
+        marginTop="20"
+        marginLeft="40"
+        marginRight="40"
+        marginBottom="20"/>
+
+</brls:Box>

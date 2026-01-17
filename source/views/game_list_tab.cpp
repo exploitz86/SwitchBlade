@@ -1,0 +1,90 @@
+#include "views/game_list_tab.hpp"
+#include "utils/utils.hpp"
+#include "utils/config.hpp"
+#include "views/mods_list.hpp"
+
+#include <borealis.hpp>
+
+using namespace brls::literals;
+
+GameCell::GameCell()
+{
+    this->inflateFromXMLRes("xml/cells/cell.xml");
+}
+
+GameCell* GameCell::create()
+{
+    return new GameCell();
+}
+
+brls::RecyclerCell* GameData::cellForRow(brls::RecyclerFrame* recycler, brls::IndexPath indexPath)
+{
+    auto cell = (GameCell*)recycler->dequeueReusableCell("Cell");
+    cell->label->setText(games[indexPath.row].first);
+    cell->subtitle->setText(fmt::format("TitleID : {}",games[indexPath.row].second));
+    uint8_t* icon = utils::getIconFromTitleId(games[indexPath.row].second);
+    if(icon != nullptr)
+        cell->image->setImageFromMem(icon, 0x20000);
+    return cell;
+}
+
+void GameData::didSelectRowAt(brls::RecyclerFrame* recycler, brls::IndexPath indexPath)
+{ 
+    Game game(games[indexPath.row].first, games[indexPath.row].second);
+    if(game.getGamebananaID() == 0) {
+        auto dialog = new brls::Dialog("menu/notify/no_games_gamebanana"_i18n);
+        dialog->addButton("hints/ok"_i18n, []() {});
+        dialog->open();
+        return;
+    }
+    if(game.getGamebananaID() == -1) {
+        auto dialog = new brls::Dialog("menu/notify/request_error"_i18n);
+        dialog->addButton("hints/ok"_i18n, []() {});
+        dialog->open();
+        return;
+    }
+    auto modListTab = new ModListTab(game);
+    recycler->present(modListTab);    
+}
+
+GameData::GameData() {
+    games = utils::getInstalledGames();
+    brls::Logger::debug("{} games found", games.size());
+}
+
+int GameData::numberOfSections(brls::RecyclerFrame* recycler) {
+    return 1;
+}
+
+int GameData::numberOfRows(brls::RecyclerFrame* recycler, int section) {
+    return games.size();
+}
+
+std::string GameData::titleForHeader(brls::RecyclerFrame* recycler, int section) {
+    return "";
+}
+
+GameListTab::GameListTab() {
+    this->inflateFromXMLRes("xml/tabs/game_list_tab.xml");
+
+    gameData = new GameData();
+
+
+    recycler->estimatedRowHeight = 100;
+    recycler->registerCell("Cell", []() { return GameCell::create();});
+    recycler->setDataSource(gameData, false);
+
+    #ifndef NDEBUG
+    cfg::Config config;
+    if (config.getWireframe()) {
+        this->setWireframeEnabled(true);
+        for(auto& view : this->getChildren()) {
+            view->setWireframeEnabled(true);
+        }
+    }
+    #endif
+}
+
+brls::View* GameListTab::create() {
+    return new GameListTab();
+}

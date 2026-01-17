@@ -1,0 +1,59 @@
+<brls:Box
+    width="auto"
+    height="auto"
+    axis="column"
+    paddingTop="@style/brls/sidebar/padding_top"
+    paddingRight="@style/brls/sidebar/padding_right"
+    paddingBottom="@style/brls/sidebar/padding_bottom"
+    paddingLeft="@style/brls/sidebar/padding_left">
+
+    <brls:Label
+        id="bootloaders_desc"
+        width="auto"
+        height="auto"
+        fontSize="16"
+        marginBottom="20"/>
+
+    <brls:Label
+        id="bootloaders_title"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginBottom="10"/>
+
+    <!-- Bootloader items will be added here dynamically -->
+    <brls:Box
+        id="bootloader_list"
+        width="auto"
+        height="auto"
+        axis="column"/>
+
+    <brls:Label
+        id="hekate_ipl_title"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginTop="20"
+        marginBottom="10"/>
+
+    <brls:Box
+        id="hekate_ipl_list"
+        width="auto"
+        height="auto"
+        axis="column"/>
+
+    <brls:Label
+        id="payloads_title"
+        width="auto"
+        height="auto"
+        fontSize="14"
+        marginTop="20"
+        marginBottom="10"/>
+
+    <brls:Box
+        id="payloads_list"
+        width="auto"
+        height="auto"
+        axis="column"/>
+
+</brls:Box>

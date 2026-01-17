@@ -1,0 +1,25 @@
+<brls:AppletFrame
+    id="applet"
+    iconInterpolation="linear"
+    footerHidden="false">
+
+    <brls:TabFrame
+        title="@i18n/menu/cheats_menu/title">
+
+        <brls:Tab label="@i18n/menu/cheats_menu/cheat_menu">
+            <CheatMenuTab/>
+        </brls:Tab>
+
+        <brls:Tab label="@i18n/menu/cheats_menu/tools">
+            <CheatsToolsTab/>
+        </brls:Tab>
+
+        <brls:Separator/>
+
+        <brls:Tab label="@i18n/menu/tabs/settings">
+            <CheatsSettingsTab/>
+        </brls:Tab>
+
+    </brls:TabFrame>
+
+</brls:AppletFrame>

@@ -1,0 +1,49 @@
+<brls:Box
+    width="auto"
+    height="auto">
+
+    <brls:ScrollingFrame
+        width="auto"
+        height="auto"
+        axis="column"
+        alignItems="stretch"
+        scrollingBehavior="centered"
+        grow="1.0">
+
+        <brls:Box
+            width="auto"
+            height="auto"
+            axis="column"
+            paddingTop="@style/brls/sidebar/padding_top"
+            paddingRight="@style/brls/sidebar/padding_right"
+            paddingBottom="@style/brls/sidebar/padding_bottom"
+            paddingLeft="@style/brls/sidebar/padding_left">
+
+            <brls:Label
+                id="description_label"
+                width="auto"
+                height="auto"
+                fontSize="14"
+                singleLine="false"
+                marginBottom="10"/>
+
+            <brls:Label
+                id="warning_label"
+                width="auto"
+                height="auto"
+                fontSize="14"
+                singleLine="false"
+                marginBottom="20"/>
+
+            <!-- Custom downloads will be added here dynamically -->
+            <brls:Box
+                id="custom_downloads_box"
+                width="auto"
+                height="auto"
+                axis="column"/>
+
+        </brls:Box>
+
+    </brls:ScrollingFrame>
+
+</brls:Box>

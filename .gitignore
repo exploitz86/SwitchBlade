@@ -1,0 +1,17 @@
+cmake-build-switch
+.vscode
+build
+.xmake
+build
+.idea
+
+# Forwarder build artifacts
+forwarder/build/
+forwarder/forwarder.nro
+forwarder/forwarder.elf
+forwarder/forwarder.nacp
+resources/forwarder.nro
+
+# TegraExplorer build artifacts
+TegraExplorer/output/
+resources/switchblade_rcm.bin

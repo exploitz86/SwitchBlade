@@ -1,0 +1,14 @@
+<brls:Box width="auto" height="auto" justifyContent="center" margin="20" axis="column">
+    <brls:Label width="auto" height="50" id="phase_text" margin="10"/>
+    <brls:Box width="auto" height="auto" justifyContent="center" margin="4" axis="row">
+        <brls:ProgressSpinner width="30" height="30" id="phase_spinner" margin="10" size="normal"/>
+        <brls:Slider width="80%" height="40" id="phase_progressBar" margin="10"/>
+        <brls:Label width="auto" height="30" id="phase_percent" margin="10"/>
+    </brls:Box>
+    <brls:Label width="auto" height="50" id="mod_text" margin="10"/>
+    <brls:Box width="auto" height="auto" justifyContent="center" margin="20" axis="row">
+        <brls:ProgressSpinner width="30" height="30" id="mod_spinner" margin="10" size="normal"/>
+        <brls:Slider width="80%" height="40" id="mod_progressBar" margin="10"/>
+        <brls:Label width="auto" height="30" id="mod_percent" margin="10"/>
+    </brls:Box>
+</brls:Box>

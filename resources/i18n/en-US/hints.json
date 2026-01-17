@@ -1,0 +1,17 @@
+{
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "proceed": "Proceed",
+    "back": "Back",
+    "exit": "Exit",
+    "exit_hint": "Do you want to exit the app?",
+    "open": "Open",
+    "on": "On",
+    "off": "Off",
+    "delete": "Delete",
+    "save": "Save",
+    "input": "Please input...",
+    "submit": "Submit"
+  }

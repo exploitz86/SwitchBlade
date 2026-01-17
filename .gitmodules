@@ -1,0 +1,3 @@
+[submodule "TegraExplorer"]
+	path = TegraExplorer
+	url = https://github.com/exploitz86/TegraExplorer
