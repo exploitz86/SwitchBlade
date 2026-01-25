@@ -131,7 +131,7 @@ I do not own, host, nor distribute any of the files that can be downloaded with 
 
 - **[HamletDuFromage](https://github.com/HamletDuFromage)** for AIO-Switch-Updater, which served as the foundation for CFW update functionality.
 - **[PoloNX](https://github.com/PoloNX)** for SimpleModDownloader, the original mod downloading and management system.
-- **[nadrino](https://github.com/nadrino)** for SimpleModManager and the modified Borealis library.
+- **[nadrino](https://github.com/nadrino)** for SimpleModManager.
 - **[Natinusala](https://github.com/natinusala)**, **[xfangfang](https://github.com/xfangfang)**, and **[XITRIX](https://github.com/XITRIX)** for [borealis](https://github.com/xfangfang/borealis), the UI framework.
 - **[NicholeMattera](https://github.com/NicholeMattera)** for [Simple-INI-Parser](https://github.com/NicholeMattera/Simple-INI-Parser).
 - **[GameBanana](https://gamebanana.com/)** for their API enabling mod downloads.

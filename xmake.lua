@@ -15,7 +15,7 @@ add_rules("mode.debug", "mode.release")
 
 add_requires("borealis", {repo = "switch-repo"}, "deko3d", "libcurl", "libarchive", "bzip2", "zlib", "liblzma", "lz4", "libexpat", "libzstd")
 
-local version = "1.0.0"
+local version = "1.0.1"
 
 target("SwitchBlade")
     set_kind("binary")
