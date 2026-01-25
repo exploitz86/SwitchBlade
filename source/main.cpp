@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 
+#include "views/about_tab.hpp"
 #include "views/game_list_tab.hpp"
 #include "views/tools_tab.hpp"
 #include "views/cheats_mods_tab.hpp"
@@ -22,7 +23,6 @@
 #include "views/app_update_view.hpp"
 #include "activity/main_activity.hpp"
 #include "utils/config.hpp"
-#include "utils/utils.hpp"
 #include "utils/utils.hpp"
 #include "utils/constants.hpp"
 #include "utils/fs.hpp"
@@ -106,6 +106,7 @@ int main(int argc, char* argv[]) {
     }
 
     //XML View
+    brls::Application::registerXMLView("AboutTab", AboutTab::create);
     brls::Application::registerXMLView("GameListTab", GameListTab::create);
     brls::Application::registerXMLView("ToolsTab", ToolsTab::create);
     brls::Application::registerXMLView("CheatsModsTab", CheatsModsTab::create);

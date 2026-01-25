@@ -70,7 +70,7 @@ void CustomDownloadsTab::refreshDownloadsList()
         auto* descLabel = new brls::Label();
         descLabel->setText(description);
         descLabel->setTextColor(nvgRGB(150, 150, 150));
-        descLabel->setFontSize(15);
+        descLabel->setFontSize(16);
         descLabel->setMarginBottom(10);
         customDownloadsBox->addView(descLabel);
 

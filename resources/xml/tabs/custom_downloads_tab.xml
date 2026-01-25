@@ -4,10 +4,9 @@
 
     <brls:ScrollingFrame
         width="auto"
-        height="auto"
+        height="100%"
         axis="column"
         alignItems="stretch"
-        scrollingBehavior="centered"
         grow="1.0">
 
         <brls:Box
@@ -23,7 +22,7 @@
                 id="description_label"
                 width="auto"
                 height="auto"
-                fontSize="14"
+                fontSize="16"
                 singleLine="false"
                 marginBottom="10"/>
 
@@ -31,7 +30,7 @@
                 id="warning_label"
                 width="auto"
                 height="auto"
-                fontSize="14"
+                fontSize="16"
                 singleLine="false"
                 marginBottom="20"/>
 

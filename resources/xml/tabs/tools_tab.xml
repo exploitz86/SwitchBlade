@@ -4,7 +4,7 @@
 
     <brls:ScrollingFrame
         width="auto"
-        height="auto"
+        height="100%"
         axis="column"
         alignItems="stretch"
         scrollingBehavior="centered"
@@ -12,7 +12,7 @@
         
         <brls:Box
             id="tools_box"
-            width="10000"
+            width="auto"
             height="auto"
             axis="column"
             alignItems="stretch"

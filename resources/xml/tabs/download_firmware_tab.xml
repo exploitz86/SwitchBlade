@@ -1,38 +1,53 @@
 <brls:Box
     width="auto"
-    height="auto"
-    axis="column"
-    paddingTop="@style/brls/sidebar/padding_top"
-    paddingRight="@style/brls/sidebar/padding_right"
-    paddingBottom="@style/brls/sidebar/padding_bottom"
-    paddingLeft="@style/brls/sidebar/padding_left">
+    height="auto">
 
-    <brls:Label
-        id="firmware_desc"
-        width="700"
-        height="auto"
-        fontSize="14"
-        marginBottom="20"/>
-
-    <brls:Label
-        id="firmware_version"
+    <brls:ScrollingFrame
         width="auto"
-        height="auto"
-        fontSize="14"
-        marginBottom="20"/>
+        height="100%"
+        axis="column"
+        alignItems="stretch"
+        grow="1.0" >
 
-    <brls:Label
-        id="box_title"
-        width="auto"
-        height="auto"
-        fontSize="22"
-        marginBottom="10"/>
+        <brls:Box
+            width="auto"
+            height="auto"
+            axis="column"
+            paddingTop="@style/brls/sidebar/padding_top"
+            paddingRight="@style/brls/sidebar/padding_right"
+            paddingBottom="@style/brls/sidebar/padding_bottom"
+            paddingLeft="@style/brls/sidebar/padding_left">
 
-    <!-- Firmware versions will be added here dynamically -->
-    <brls:Box
-        id="firmware_list"
-        width="auto"
-        height="auto"
-        axis="column"/>
+            <brls:Label
+                id="firmware_desc"
+                width="auto"
+                height="auto"
+                fontSize="16"
+                marginBottom="20"/>
+
+            <brls:Label
+                id="firmware_version"
+                width="auto"
+                height="auto"
+                fontSize="16"
+                marginBottom="20"/>
+
+            <brls:Label
+                id="box_title"
+                width="auto"
+                height="auto"
+                fontSize="22"
+                marginBottom="10"/>
+
+            <!-- Firmware versions will be added here dynamically -->
+            <brls:Box
+                id="firmware_list"
+                width="auto"
+                height="auto"
+                axis="column"/>
+
+        </brls:Box>
+
+    </brls:ScrollingFrame>
 
 </brls:Box>
