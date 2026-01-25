@@ -1,38 +1,52 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: "[BUG]"
+title: "[BUG] "
 labels: bug
-assignees: PoloNX
+assignees: exploitz86
 
 ---
 
-**Describe the bug**
+## Bug Description
 A clear and concise description of what the bug is.
 
-**On which mod**
-Paste the link of the mod here
-
-**Log file**
-Paste the log file here (you can find it at /config/SimpleModDownloader/log.log)
-Don't launch the app again before pasting the log file, it will be overwritten
-
-**To Reproduce**
-Steps to reproduce the behavior:
+## Steps to Reproduce
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+## Expected Behavior
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+## Actual Behavior
+What actually happened instead.
+
+## Log File
+Paste the log file here (you can find it at /config/SwitchBlade/log.log)
+Don't launch the app again before pasting the log file, it will be overwritten
+
+```
+Paste log content here
+```
+
+## System Information
+**Switch Console:**
+- Horizon OS version: (ex: 16.0.3)
+- CFW version: (ex: 1.5.4)
+
+**SwitchBlade:**
+- SwitchBlade version: (ex: 1.0.1)
+
+## Screenshots
 If applicable, add screenshots to help explain your problem.
 
-**Switch:**
- - Horizon Os version (ex 16.0.3)
- - SimpleModDownloader version (ex 1.0.1)
+## Pre-submission Checklist
+Please confirm you have completed the following:
+- [ ] I have searched existing issues to ensure this isn't a duplicate
+- [ ] I am using the latest version of SwitchBlade
+- [ ] I have included the log file
+- [ ] I have provided clear steps to reproduce
 
-**Additional context**
-Add any other context about the problem here.
+## Additional Context
+Add any other context about the problem here (error messages, crash details, workarounds you've tried, etc.).
