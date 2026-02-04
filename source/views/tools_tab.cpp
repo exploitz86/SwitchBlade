@@ -4,6 +4,7 @@
 #include "views/procon_color_page.hpp"
 #include "views/payload_page.hpp"
 #include "views/net_page.hpp"
+#include "views/dns_tester_page.hpp"
 #include "utils/config.hpp"
 #include "utils/fs.hpp"
 
@@ -64,6 +65,16 @@ ToolsTab::ToolsTab() {
         return true;
     });
     tools_box->addView(netSettingsItem);
+
+    // Add 90DNS Tester menu item
+    auto* dnsTesterItem = new brls::RadioCell();
+    dnsTesterItem->title->setText("menu/tools_tab/dns_tester"_i18n);
+    dnsTesterItem->setSelected(false);
+    dnsTesterItem->registerClickAction([this](brls::View* view) {
+        brls::Application::pushActivity(new brls::Activity(new DNSTesterPage()));
+        return true;
+    });
+    tools_box->addView(dnsTesterItem);
 
     // Add Clean up Atmosphere reports menu item
     auto* cleanupItem = new brls::RadioCell();

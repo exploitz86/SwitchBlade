@@ -340,6 +340,7 @@
         "procon_color": "Pro Controller-Farben ändern",
         "inject_payload": "Payload einschleusen",
         "net_settings": "Interneteinstellungen bearbeiten",
+        "dns_tester": "DNS-Tester (90DNS)",
         "cleanup_reports": "Atmosphere-Berichte aufräumen",
         "cleanup_confirm": "Möchten Sie alle Atmosphere-Berichte löschen?\n\nDies löscht:\n- atmosphere/crash_reports\n- atmosphere/fatal_reports\n- atmosphere/fatal_errors\n- atmosphere/erpt_reports",
         "cleaned_up_numer": " Berichtsordner wurde(n) erfolgreich aufgeräumt.",
@@ -382,5 +383,25 @@
         "network_presets": "Netzwerkvoreinstellungen",
         "apply_preset_confirm": "Dieses Netzwerkprofil anwenden?\n\n",
         "apply": "Anwenden"
+    },
+
+    "dns_tester" : {
+        "title": "DNS-Tester (90DNS)",
+        "description": "Testen Sie die DNS-Auflösung, um zu überprüfen, ob 90DNS oder Atmosphere DNS MITM richtig funktioniert.\nDieses Tool prüft, ob die Nintendo-Server blockiert oder erreichbar sind.",
+        "ready": "Drücken Sie die Schaltfläche Test, um die DNS-Auflösungsprüfung zu starten.",
+        "testing_in_progress": "DNS-Auflösung wird getestet... Bitte warten.",
+        "testing": "DNS-Auflösung testen:\n",
+        "test_button": "DNS-Test starten",
+        "blocked": "[BLOCKIERT]",
+        "unblocked": "[FREIGEGEBEN]",
+        "unresolved": "[NICHT AUFGELÖST]",
+        "no_connection": "Keine Internetverbindung erkannt!",
+        "summary": "Zusammenfassung:",
+        "blocked_label": "Blockiert",
+        "resolved_label": "Freigegeben",
+        "unresolved_label": "Nicht aufgelöst",
+        "blocked_count": "Blockiert: {}",
+        "resolved_count": "Aufgelöst (Freigegeben): {}",
+        "unresolved_count": "Nicht aufgelöst: {}"
     }
 }
