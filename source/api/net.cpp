@@ -3,11 +3,22 @@
 
 #include <curl/curl.h>
 #include <borealis.hpp>
+#include <cstdio>
+#include <cstring>
+#include <filesystem>
 #include <fstream>
+#include <vector>
 
 namespace net {
     std::chrono::_V2::steady_clock::time_point time_old;
     double dlold;
+    constexpr size_t FILE_WRITE_BUFFER_SIZE = 0x100000;
+
+    struct DownloadChunk {
+        std::vector<unsigned char> data;
+        size_t offset = 0;
+        FILE* out = nullptr;
+    };
 
     size_t WriteCallback(void* content, size_t size, size_t nmemb, std::string* buffer) {
         buffer->append((char*)content, size * nmemb);
@@ -82,13 +93,41 @@ namespace net {
         curl_easy_cleanup(curl);
     }
 
-    size_t WriteCallbackFile(void* ptr, size_t size, size_t nmemb, std::ofstream *stream) {
-        stream->write(static_cast<char *>(ptr), size * nmemb);
-        if(stream->bad()) {
-            brls::Logger::error("Error writing to file");
+    size_t WriteCallbackFile(void* ptr, size_t size, size_t nmemb, void* userdata) {
+        if (ProgressEvent::instance().getInterupt()) {
             return 0;
         }
-        return size * nmemb;
+
+        auto* chunk = static_cast<DownloadChunk*>(userdata);
+        size_t totalSize = size * nmemb;
+
+        if (totalSize > chunk->data.size()) {
+            if (chunk->offset > 0) {
+                if (fwrite(chunk->data.data(), 1, chunk->offset, chunk->out) != chunk->offset) {
+                    brls::Logger::error("Error writing buffered chunk to file");
+                    return 0;
+                }
+                chunk->offset = 0;
+            }
+
+            if (fwrite(ptr, 1, totalSize, chunk->out) != totalSize) {
+                brls::Logger::error("Error writing large chunk to file");
+                return 0;
+            }
+            return totalSize;
+        }
+
+        if (chunk->offset + totalSize > chunk->data.size()) {
+            if (fwrite(chunk->data.data(), 1, chunk->offset, chunk->out) != chunk->offset) {
+                brls::Logger::error("Error flushing download buffer to file");
+                return 0;
+            }
+            chunk->offset = 0;
+        }
+
+        std::memcpy(chunk->data.data() + chunk->offset, ptr, totalSize);
+        chunk->offset += totalSize;
+        return totalSize;
     }
     
     int downloadFileProgress(void* p, double dltotal, double dlnow, double ultotal, double ulnow) {
@@ -139,21 +178,31 @@ namespace net {
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, 600L);
         curl_easy_setopt(curl, CURLOPT_DNS_CACHE_TIMEOUT, 3600L);
         curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 5L);
-        curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-
-        std::ofstream ofs(path, std::ios::binary);
-        if (!ofs.is_open()) {
+        FILE* fp = std::fopen(path.c_str(), "wb");
+        if (!fp) {
             brls::Logger::error("Failed to open file for writing: {}", path);
             curl_easy_cleanup(curl);
             return false;
         }
 
+        DownloadChunk chunk;
+        chunk.data.resize(FILE_WRITE_BUFFER_SIZE);
+        chunk.out = fp;
+
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallbackFile);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ofs);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &chunk);
 
         auto res = curl_easy_perform(curl);
 
-        ofs.close();
+        bool fileWriteError = false;
+        if (chunk.offset > 0) {
+            if (fwrite(chunk.data.data(), 1, chunk.offset, fp) != chunk.offset) {
+                brls::Logger::error("Error writing final buffered chunk to file");
+                fileWriteError = true;
+            }
+        }
+
+        std::fclose(fp);
 
         // Check if aborted by callback (user cancelled)
         if (res == CURLE_ABORTED_BY_CALLBACK) {
@@ -166,6 +215,13 @@ namespace net {
         // Check for CURL errors
         if(res != CURLE_OK) {
             brls::Logger::error("Download failed: {}", curl_easy_strerror(res));
+            std::filesystem::remove(path);
+            curl_easy_cleanup(curl);
+            return false;
+        }
+
+        if (fileWriteError) {
+            brls::Logger::error("Download failed due to file write error");
             std::filesystem::remove(path);
             curl_easy_cleanup(curl);
             return false;
