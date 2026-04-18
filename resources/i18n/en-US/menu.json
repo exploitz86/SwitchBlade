@@ -43,6 +43,7 @@
         "revision": "Revision: ",
         "ascent_desc": "Ascent by exploitz86 is a CFW pack based on TeamNeptune's DeepSea that includes Atmosphere, Hekate and various homebrew apps.",
         "current_ascent": "Current Ascent Version: ",
+        "latest_hos": "Latest supported HOS: ",
         "no_cfw_data": "Error: Could not find CFW data in nx-links",
         "cannot_fetch_nx": "Error: Could not fetch data from nx-links. Check internet connection."
     },

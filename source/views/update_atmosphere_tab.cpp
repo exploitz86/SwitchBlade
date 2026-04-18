@@ -65,9 +65,8 @@ void UpdateAtmosphereTab::createAtmosphereUpdateUI()
     currentAscentLabel->setText("menu/ams_update/current_ascent"_i18n + readAscentVersion());
     currentAscentLabel->setTextColor(nvgRGB(0, 255, 200));
 
-    // Latest HOS Label to be implemented
-    // latestHOSLabel->setText("Latest supported HOS: Checking...");
-    // atestHOSLabel->setTextColor(nvgRGB(150, 150, 150));
+    latestHOSLabel->setText("menu/ams_update/latest_hos"_i18n + "Checking...");
+    latestHOSLabel->setTextColor(nvgRGB(250, 50, 50));
 
     // Fetch and populate CFW links
     this->fetchCFWLinks();
@@ -93,6 +92,12 @@ void UpdateAtmosphereTab::fetchCFWLinks()
         // Extract CFW section
         if (nxlinks.contains("cfws") && nxlinks["cfws"].is_object()) {
             auto cfws = nxlinks["cfws"];
+
+            // Extract and display Ascent supported HOS version
+            if (cfws.contains("Ascent_Supported_HOS") && cfws["Ascent_Supported_HOS"].is_string()) {
+                std::string hosVersion = cfws["Ascent_Supported_HOS"].get<std::string>();
+                latestHOSLabel->setText("menu/ams_update/latest_hos"_i18n + hosVersion);
+            }
 
             // Add Atmosphere versions (offer Hekate download)
             if (cfws.contains("Atmosphere") && cfws["Atmosphere"].is_object()) {
