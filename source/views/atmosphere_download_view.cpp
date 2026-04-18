@@ -10,6 +10,9 @@
 
 using namespace brls::literals;
 
+constexpr int PROGRESS_WAIT_MS = 50;
+constexpr int PROGRESS_UPDATE_MS = 100;
+
 // Helper function to remove sysmodule flags
 static void removeSysmodulesFlags(const std::string& directory) {
     for (const auto& e : std::filesystem::recursive_directory_iterator(directory)) {
@@ -398,7 +401,7 @@ void AtmosphereDownloadView::downloadFile() {
             // Update download progress bars during Hekate download
             {
                 while(ProgressEvent::instance().getTotal() == 0 && !hekateDownloadSuccess) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
                 }
 
                 while(ProgressEvent::instance().getNow() < ProgressEvent::instance().getTotal()) {
@@ -430,7 +433,7 @@ void AtmosphereDownloadView::downloadFile() {
                             this->download_eta->setText("ETA: Calculating...");
                         }
                     });
-                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
                 }
 
                 ASYNC_RETAIN
@@ -476,7 +479,7 @@ void AtmosphereDownloadView::downloadFile() {
                 // Update extraction progress bars during Hekate extraction
                 {
                     while(ProgressEvent::instance().getMax() == 0 && !hekateExtractSuccess) {
-                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
                     }
 
                     while(ProgressEvent::instance().getStep() < ProgressEvent::instance().getMax()) {
@@ -489,7 +492,7 @@ void AtmosphereDownloadView::downloadFile() {
                             this->extract_progressBar->setProgress((float)step / max);
                             this->extract_percent->setText(fmt::format("{}%", (step * 100 / max)));
                         });
-                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                        std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
                     }
 
                     ASYNC_RETAIN
@@ -605,7 +608,7 @@ void AtmosphereDownloadView::updateProgress() {
         while(ProgressEvent::instance().getTotal() == 0) {
             if(downloadFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         while(ProgressEvent::instance().getNow() < ProgressEvent::instance().getTotal() && !downloadFinished) {
@@ -639,7 +642,7 @@ void AtmosphereDownloadView::updateProgress() {
                     this->download_eta->setText("ETA: Calculating...");
                 }
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
 
         ASYNC_RETAIN
@@ -656,7 +659,7 @@ void AtmosphereDownloadView::updateProgress() {
         while(ProgressEvent::instance().getMax() == 0) {
             if(extractFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         while(ProgressEvent::instance().getStep() < ProgressEvent::instance().getMax() && !extractFinished) {
@@ -669,7 +672,7 @@ void AtmosphereDownloadView::updateProgress() {
                 this->extract_progressBar->setProgress((float)step / max);
                 this->extract_percent->setText(fmt::format("{}%", (step * 100 / max)));
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
 
         ASYNC_RETAIN
@@ -683,7 +686,7 @@ void AtmosphereDownloadView::updateProgress() {
 
     // Wait for all post-extraction work (Hekate dialogs, etc.) to complete
     while(!extractFinished) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
     }
 
     // Show reboot confirmation dialog

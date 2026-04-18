@@ -8,6 +8,9 @@
 
 using namespace brls::literals;
 
+constexpr int PROGRESS_WAIT_MS = 50;
+constexpr int PROGRESS_UPDATE_MS = 100;
+
 CheatDownloadView::CheatDownloadView(const std::string& url, const std::string& version, bool isGraphicsCheats, bool extractAll)
     : cheatUrl(url), cheatVersion(version), isGfxCheats(isGraphicsCheats), extractAll(extractAll) {
     brls::Logger::debug("CheatDownloadView constructor START");
@@ -152,7 +155,7 @@ void CheatDownloadView::updateProgress() {
         while(ProgressEvent::instance().getTotal() == 0) {
             if(downloadFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         while(ProgressEvent::instance().getNow() < ProgressEvent::instance().getTotal() && !downloadFinished) {
@@ -186,7 +189,7 @@ void CheatDownloadView::updateProgress() {
                     this->download_eta->setText("ETA: Calculating...");
                 }
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
 
         ASYNC_RETAIN
@@ -203,7 +206,7 @@ void CheatDownloadView::updateProgress() {
         while(ProgressEvent::instance().getMax() == 0) {
             if(extractFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         while(ProgressEvent::instance().getStep() < ProgressEvent::instance().getMax() && !extractFinished) {
@@ -216,7 +219,7 @@ void CheatDownloadView::updateProgress() {
                 this->extract_progressBar->setProgress((float)step / max);
                 this->extract_percent->setText(fmt::format("{}%", (step * 100 / max)));
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
 
         ASYNC_RETAIN
@@ -230,7 +233,7 @@ void CheatDownloadView::updateProgress() {
 
     // Wait for extraction to complete
     while(!extractFinished) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
     }
 
     // Show completion dialog

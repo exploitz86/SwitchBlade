@@ -9,6 +9,9 @@
 
 using namespace brls::literals;
 
+constexpr int PROGRESS_WAIT_MS = 50;
+constexpr int PROGRESS_UPDATE_MS = 100;
+
 DownloadView::DownloadView(File& file): file(file) {
     this->inflateFromXMLRes("xml/tabs/download_view.xml");
 
@@ -83,7 +86,7 @@ void DownloadView::updateProgress() {
         while(ProgressEvent::instance().getTotal() == 0) {
             if(downloadFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
         while(ProgressEvent::instance().getNow() < ProgressEvent::instance().getTotal() && !downloadFinished) {
             ASYNC_RETAIN
@@ -92,7 +95,7 @@ void DownloadView::updateProgress() {
                 this->download_percent->setText(fmt::format("{}%", (int)(ProgressEvent::instance().getNow() / ProgressEvent::instance().getTotal() * 100)));
                 this->download_progressBar->setProgress((float)ProgressEvent::instance().getNow() / ProgressEvent::instance().getTotal());
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
         ASYNC_RETAIN
         brls::sync([ASYNC_TOKEN](){
@@ -107,7 +110,7 @@ void DownloadView::updateProgress() {
         while(ProgressEvent::instance().getMax() == 0) {
             if(extractFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         while(ProgressEvent::instance().getStep() < ProgressEvent::instance().getMax() && !extractFinished) {
@@ -117,7 +120,7 @@ void DownloadView::updateProgress() {
                 this->extract_percent->setText(fmt::format("{}%", (int)((ProgressEvent::instance().getStep() * 100 / ProgressEvent::instance().getMax()))));
                 this->extract_progressBar->setProgress((float)ProgressEvent::instance().getStep() / ProgressEvent::instance().getMax());
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
         
         ASYNC_RETAIN

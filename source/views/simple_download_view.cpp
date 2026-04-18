@@ -9,6 +9,9 @@
 
 using namespace brls::literals;
 
+constexpr int PROGRESS_WAIT_MS = 50;
+constexpr int PROGRESS_UPDATE_MS = 100;
+
 SimpleDownloadView::SimpleDownloadView(const std::string& name, const std::string& url)
     : packName(name), packUrl(url)
 {
@@ -141,7 +144,7 @@ void SimpleDownloadView::updateProgress()
         while(ProgressEvent::instance().getTotal() == 0) {
             if(downloadFinished)
                 break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         // Track download progress
@@ -198,7 +201,7 @@ void SimpleDownloadView::updateProgress()
     {
         // Wait for extraction to start
         while(ProgressEvent::instance().getMax() == 0 && !extractFinished) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_WAIT_MS));
         }
 
         // Track extraction progress
@@ -213,7 +216,7 @@ void SimpleDownloadView::updateProgress()
                 this->extract_percent->setText(fmt::format("{}%", percent));
                 this->extract_progressBar->setProgress((float)percent / 100.0f);
             });
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(PROGRESS_UPDATE_MS));
         }
 
         ASYNC_RETAIN

@@ -6,16 +6,17 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
-#include <fstream>
 #include <vector>
 
 namespace net {
     std::chrono::_V2::steady_clock::time_point time_old;
+    std::chrono::_V2::steady_clock::time_point progress_update_old;
     double dlold;
     constexpr size_t FILE_WRITE_BUFFER_SIZE = 0x100000;
 
     struct DownloadChunk {
-        std::vector<unsigned char> data;
+        unsigned char* data = nullptr;
+        size_t data_size = 0;
         size_t offset = 0;
         FILE* out = nullptr;
     };
@@ -101,9 +102,9 @@ namespace net {
         auto* chunk = static_cast<DownloadChunk*>(userdata);
         size_t totalSize = size * nmemb;
 
-        if (totalSize > chunk->data.size()) {
+        if (totalSize >= chunk->data_size) {
             if (chunk->offset > 0) {
-                if (fwrite(chunk->data.data(), 1, chunk->offset, chunk->out) != chunk->offset) {
+                if (fwrite(chunk->data, 1, chunk->offset, chunk->out) != chunk->offset) {
                     brls::Logger::error("Error writing buffered chunk to file");
                     return 0;
                 }
@@ -117,15 +118,15 @@ namespace net {
             return totalSize;
         }
 
-        if (chunk->offset + totalSize > chunk->data.size()) {
-            if (fwrite(chunk->data.data(), 1, chunk->offset, chunk->out) != chunk->offset) {
+        if (chunk->offset + totalSize >= chunk->data_size) {
+            if (fwrite(chunk->data, 1, chunk->offset, chunk->out) != chunk->offset) {
                 brls::Logger::error("Error flushing download buffer to file");
                 return 0;
             }
             chunk->offset = 0;
         }
 
-        std::memcpy(chunk->data.data() + chunk->offset, ptr, totalSize);
+        std::memcpy(chunk->data + chunk->offset, ptr, totalSize);
         chunk->offset += totalSize;
         return totalSize;
     }
@@ -140,12 +141,19 @@ namespace net {
             return 1;  // Return non-zero to abort CURL transfer
         }
 
+        auto now = std::chrono::steady_clock::now();
+        double progress_elapsed = ((std::chrono::duration<double>)(now - progress_update_old)).count();
+        if (progress_elapsed < 0.1) {
+            return 0;
+        }
+        progress_update_old = now;
+
         double progress = dlnow / dltotal;
         int counter = (int)(progress * ProgressEvent::instance().getMax());
         ProgressEvent::instance().setStep(std::min(ProgressEvent::instance().getMax() - 1, counter));
         ProgressEvent::instance().setNow(dlnow);
         ProgressEvent::instance().setTotalCount(dltotal);
-        auto time_now = std::chrono::steady_clock::now();
+        auto time_now = now;
         double elapsed_time = ((std::chrono::duration<double>)(time_now - time_old)).count();
         if(elapsed_time > 1.2f) {
             ProgressEvent::instance().setSpeed((dlnow - dlold) / elapsed_time);
@@ -159,6 +167,10 @@ namespace net {
     bool downloadFile(const std::string& url, const std::string& path) {
         brls::Logger::debug("Downloading file: {}, in the location : {}", url, path);
 
+        time_old = std::chrono::steady_clock::now();
+        progress_update_old = time_old;
+        dlold = 0.0;
+
         auto curl = curl_easy_init();
 
         if(!curl) {
@@ -166,18 +178,6 @@ namespace net {
             return false;
         }
 
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, downloadFileProgress);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-        curl_easy_setopt(curl, CURLOPT_BUFFERSIZE, 512000L);
-        curl_easy_setopt(curl, CURLOPT_TCP_NODELAY, 1L);
-        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 30L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 600L);
-        curl_easy_setopt(curl, CURLOPT_DNS_CACHE_TIMEOUT, 3600L);
-        curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 5L);
         FILE* fp = std::fopen(path.c_str(), "wb");
         if (!fp) {
             brls::Logger::error("Failed to open file for writing: {}", path);
@@ -185,9 +185,26 @@ namespace net {
             return false;
         }
 
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "SwitchBlade");
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, downloadFileProgress);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+        curl_easy_setopt(curl, CURLOPT_NOBODY, 0L);
+
         DownloadChunk chunk;
-        chunk.data.resize(FILE_WRITE_BUFFER_SIZE);
+        chunk.data = static_cast<unsigned char*>(std::malloc(FILE_WRITE_BUFFER_SIZE));
+        chunk.data_size = FILE_WRITE_BUFFER_SIZE;
         chunk.out = fp;
+
+        if (!chunk.data) {
+            brls::Logger::error("Failed to allocate download buffer");
+            std::fclose(fp);
+            curl_easy_cleanup(curl);
+            return false;
+        }
 
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallbackFile);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &chunk);
@@ -196,7 +213,7 @@ namespace net {
 
         bool fileWriteError = false;
         if (chunk.offset > 0) {
-            if (fwrite(chunk.data.data(), 1, chunk.offset, fp) != chunk.offset) {
+            if (fwrite(chunk.data, 1, chunk.offset, fp) != chunk.offset) {
                 brls::Logger::error("Error writing final buffered chunk to file");
                 fileWriteError = true;
             }
@@ -204,11 +221,17 @@ namespace net {
 
         std::fclose(fp);
 
+        // Check HTTP status code before cleaning up curl handle
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+        std::free(chunk.data);
+        curl_easy_cleanup(curl);
+
         // Check if aborted by callback (user cancelled)
         if (res == CURLE_ABORTED_BY_CALLBACK) {
             brls::Logger::info("Download aborted by user");
             std::filesystem::remove(path);
-            curl_easy_cleanup(curl);
             return false;
         }
 
@@ -216,21 +239,14 @@ namespace net {
         if(res != CURLE_OK) {
             brls::Logger::error("Download failed: {}", curl_easy_strerror(res));
             std::filesystem::remove(path);
-            curl_easy_cleanup(curl);
             return false;
         }
 
         if (fileWriteError) {
             brls::Logger::error("Download failed due to file write error");
             std::filesystem::remove(path);
-            curl_easy_cleanup(curl);
             return false;
         }
-
-        // Check HTTP status code
-        long http_code = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        curl_easy_cleanup(curl);
 
         if(http_code >= 400) {
             brls::Logger::error("HTTP error: {}", http_code);
