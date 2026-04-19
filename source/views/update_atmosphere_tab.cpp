@@ -56,6 +56,9 @@ void UpdateAtmosphereTab::createAtmosphereUpdateUI()
     currentAtmosphereLabel->setText("menu/ams_update/current_ams"_i18n + readAtmosphereVersion());
     currentAtmosphereLabel->setTextColor(nvgRGB(0, 255, 200));
 
+    latestHOS_atmosphere_Label->setText("menu/ams_update/latest_hos"_i18n + "Checking...");
+    latestHOS_atmosphere_Label->setTextColor(nvgRGB(250, 50, 50));
+
     revisionLabel->setText("menu/ams_update/revision"_i18n + getDeviceRevision());
     revisionLabel->setTextColor(nvgRGB(150, 150, 150));
 
@@ -65,8 +68,8 @@ void UpdateAtmosphereTab::createAtmosphereUpdateUI()
     currentAscentLabel->setText("menu/ams_update/current_ascent"_i18n + readAscentVersion());
     currentAscentLabel->setTextColor(nvgRGB(0, 255, 200));
 
-    latestHOSLabel->setText("menu/ams_update/latest_hos"_i18n + "Checking...");
-    latestHOSLabel->setTextColor(nvgRGB(250, 50, 50));
+    latestHOS_ascent_Label->setText("menu/ams_update/latest_hos"_i18n + "Checking...");
+    latestHOS_ascent_Label->setTextColor(nvgRGB(250, 50, 50));
 
     // Fetch and populate CFW links
     this->fetchCFWLinks();
@@ -93,10 +96,17 @@ void UpdateAtmosphereTab::fetchCFWLinks()
         if (nxlinks.contains("cfws") && nxlinks["cfws"].is_object()) {
             auto cfws = nxlinks["cfws"];
 
-            // Extract and display Ascent supported HOS version
+            // Extract and display Atmosphere and Ascent supported HOS version
             if (cfws.contains("Ascent_Supported_HOS") && cfws["Ascent_Supported_HOS"].is_string()) {
-                std::string hosVersion = cfws["Ascent_Supported_HOS"].get<std::string>();
-                latestHOSLabel->setText("menu/ams_update/latest_hos"_i18n + hosVersion);
+                latestHOS_ascent_Label->setText("menu/ams_update/latest_hos"_i18n + cfws["Ascent_Supported_HOS"].get<std::string>());
+            } else {
+                brls::Logger::error("No supported HOS version found for Ascent in nx-links JSON");
+            }
+
+            if (cfws.contains("Atmosphere_Supported_HOS") && cfws["Atmosphere_Supported_HOS"].is_string()) {
+                latestHOS_atmosphere_Label->setText("menu/ams_update/latest_hos"_i18n + cfws["Atmosphere_Supported_HOS"].get<std::string>());
+            } else {
+                brls::Logger::error("No supported HOS version found for Atmosphere in nx-links JSON");
             }
 
             // Add Atmosphere versions (offer Hekate download)

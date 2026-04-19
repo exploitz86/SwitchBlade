@@ -18,7 +18,8 @@ private:
     BRLS_BIND(brls::Label, revisionLabel, "revision");
     BRLS_BIND(brls::Label, ascentDescriptionLabel, "ascent_description");
     BRLS_BIND(brls::Label, currentAscentLabel, "current_ascent");
-    BRLS_BIND(brls::Label, latestHOSLabel, "latest_hos");
+    BRLS_BIND(brls::Label, latestHOS_atmosphere_Label, "latest_hos_atmosphere");
+    BRLS_BIND(brls::Label, latestHOS_ascent_Label, "latest_hos_ascent");
     BRLS_BIND(brls::Box, atmosphereVersionsBox, "atmosphere_versions");
     BRLS_BIND(brls::Box, ascentVersionsBox, "ascent_versions");
 };

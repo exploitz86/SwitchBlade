@@ -47,6 +47,13 @@
                 marginBottom="10"/>
 
             <brls:Label
+                id="latest_hos_atmosphere"
+                width="auto"
+                height="auto"
+                fontSize="16"
+                marginBottom="10"/>
+
+            <brls:Label
                 id="revision"
                 width="auto"
                 height="auto"
@@ -90,7 +97,7 @@
                 marginBottom="10"/>
 
             <brls:Label
-                id="latest_hos"
+                id="latest_hos_ascent"
                 width="auto"
                 height="auto"
                 fontSize="16"
