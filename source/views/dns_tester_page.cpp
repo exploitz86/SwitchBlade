@@ -84,9 +84,6 @@ DNSTesterPage::DNSTesterPage() {
     titleLabel->setFocusable(false);
     contentBox->addView(titleLabel);
     
-    socketInitializeDefault();
-    nifmInitialize(NifmServiceType_User);
-    
     Result net_rc = nifmGetInternetConnectionStatus(NULL, NULL, NULL);
     
     if (R_FAILED(net_rc)) {
@@ -172,6 +169,4 @@ DNSTesterPage::DNSTesterPage() {
         },
         false);
     
-    nifmExit();
-    socketExit();
 }
