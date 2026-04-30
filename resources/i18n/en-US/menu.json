@@ -222,6 +222,7 @@
 
     "firmware_download": {
         "description": "Download Firmware dumps from 'https://github.com/THZoria/NX_Firmware'. Once downloaded, will be extracted to '/firmware'. You can then install it using Daybreak.",
+        "warning": "Warning: Make sure that the firmware you are downloading is compatible with the current CFW version. Installing an incompatible firmware can cause boot issues.",
         "currentFW": "Current Firmware:",
         "available_firmwares": "Available Firmwares",
         "downloading": "Downloading: {}",
@@ -229,6 +230,7 @@
         "download_failed": "Download failed!\n\nFailed to download firmware. Please check your internet connection and try again.",
         "extract_failed": "Extraction failed!\n\nFailed to extract firmware. The archive may be corrupted or there may not be enough space on the SD card.",
         "extracted": "Firmware {} extracted successfully!",
+        "downgrade_warning": "The selected firmware appears older than your current firmware ({} -> {}).\n\nDowngrading can cause compatibility or boot issues if done incorrectly. Continue only if you know what you are doing.",
         "launch_daybreak": "Firmware downloaded.\n\nDo you want to start Daybreak to install it?",
         "title": "Downloading Firmware..."
     },
