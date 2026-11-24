@@ -105,6 +105,51 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
+    NifmInternetConnectionStatus connectionStatus{};
+    Result connectionResult = nifmGetInternetConnectionStatus(nullptr, nullptr, &connectionStatus);
+    if (R_FAILED(connectionResult) || connectionStatus != NifmInternetConnectionStatus_Connected) {
+        constexpr Result noInternetResult = 0xd46ed;
+        const bool statusCheckFailed = R_FAILED(connectionResult) && connectionResult != noInternetResult;
+        if (statusCheckFailed) {
+            brls::Logger::error("Failed to check internet connection status: 0x{:x}", connectionResult);
+        } else {
+            brls::Logger::info("Internet connection is not available");
+        }
+
+        auto errorView = new brls::Box(brls::Axis::COLUMN);
+        errorView->setMarginBottom(60);
+        errorView->setMarginTop(60);
+        errorView->setAlignItems(brls::AlignItems::CENTER);
+        errorView->setJustifyContent(brls::JustifyContent::CENTER);
+
+        auto title = new brls::Label();
+        title->setText(statusCheckFailed ? "menu/main/connection_check_failed"_i18n : "menu/main/no_internet"_i18n);
+        title->setFontSize(32);
+        title->setTextColor(nvgRGB(255, 30, 30));
+        title->setMarginBottom(40);
+
+        auto message = new brls::Label();
+        message->setText("menu/main/press_any_button_exit"_i18n);
+        message->setHorizontalAlign(brls::HorizontalAlign::CENTER);
+
+        errorView->addView(title);
+        errorView->addView(message);
+        brls::Application::pushActivity(new brls::Activity(errorView));
+
+        PadState pad;
+        padInitializeAny(&pad);
+        padUpdate(&pad);
+        while (brls::Application::mainLoop()) {
+            padUpdate(&pad);
+            if (padGetButtonsDown(&pad)) {
+                brls::Application::quit();
+            }
+        }
+
+        exit();
+        return 0;
+    }
+
     //XML View
     brls::Application::registerXMLView("AboutTab", AboutTab::create);
     brls::Application::registerXMLView("GameListTab", GameListTab::create);

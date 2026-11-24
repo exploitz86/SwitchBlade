@@ -28,6 +28,8 @@ Works on **unpatched** (Erista) and **patched** (v2/Mariko) Switches.
 ## How to install
 Copy the `SwitchBlade/` directory to `/switch/` on your SD card.
 
+SwitchBlade checks the system's internet connection status at startup. If it is not connected, the app displays a message and exits when you press any button. A connected status does not guarantee that update servers are reachable.
+
 ## Features
 
 ### ⬦ Mod Manager & Browser
